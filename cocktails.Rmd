@@ -17,6 +17,8 @@ library(tidyverse)
 cocktails <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
 ```
 
+Let's see what the most common ingredients are.
+
 ```{r mostCommonIngredients}
 cocktails %>%
   group_by(ingredient) %>%
@@ -24,6 +26,38 @@ cocktails %>%
   arrange(desc(n))
 ```
 
+The two most common ingredients are vodka and gin. Since they are presumably the bases for different cocktails, lets see what ingredients commonly go with each one.
+
+```{r}
+# to identify which cocktails use which ingredients
+# then check with %in%
+filter_ingredient <- function(ingredient_to_filter, df) {
+  
+  # collapse the rows into 1 per cocktail (pivot_wider) with ingredients as a list-col
+  df <- df %>%
+    select(-measure, -ingredient_number) %>%
+    mutate(hack = "ingredients") %>% # is there a better solution than this?
+    pivot_wider(names_from = hack,
+                values_from = ingredient,
+                values_fn = list)
+  
+  # filter df to only include cocktails that ingredient_to_filter
+  df <- df %>%
+    filter(ingredients %in% ingredient_to_filter)
+  
+  # return df
+  df
+  
+}
+
+test <- filter_ingredient("Vodka", cocktails)  
+```
+
 ```{r tidyData}
-# seperte the measure into two columns
+# fix the measure column
+# from manual checking with unique(cocktails$measure) the possible formats are:
+# number + word(s) ("e.g. )
+# number + measurement (e.g. "2 oz")
+# number (e.g. "6)
+# number can be an integer, decimal, fraction, or combination
 ```
