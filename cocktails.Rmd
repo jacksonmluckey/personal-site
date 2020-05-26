@@ -26,7 +26,7 @@ cocktails %>%
   arrange(desc(n))
 ```
 
-The two most common ingredients are vodka and gin. Since they are presumably the bases for different cocktails, lets see what ingredients commonly go with each one.
+The two most common ingredients are vodka and gin. Since they are presumably the bases for different cocktails, lets see what ingredients commonly go with each one. To start off, we will create the dataframes `cocktails_vodka` and `cocktails_gin`, which each contain the cocktail recipes that contain the respective spirit.
 
 ```{r}
 # returns a df containing drinks that use a particular ingredient
@@ -49,6 +49,8 @@ contains_ingredient <- function(ingredient_to_filter, df) {
 cocktails_vodka <- contains_ingredient("Vodk", cocktails)
 cocktails_gin <- contains_ingredient("Gin", cocktails)  
 ```
+
+Now that we have `cocktails_vodka` and `cocktails_gin`, we can see if there is correlation between the base spirit in a cocktail and the other ingredients in said cocktail.
 
 ```{r tidyData}
 # fix the measure column
