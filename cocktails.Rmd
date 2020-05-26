@@ -31,26 +31,30 @@ The two most common ingredients are vodka and gin. Since they are presumably the
 ```{r}
 # to identify which cocktails use which ingredients
 # then check with %in%
-filter_ingredient <- function(ingredient_to_filter, df) {
+contains_ingredients <- function(ingredients, df) {
+  
+  # check if ingredient is included in ingredients_to_filter
+  tmp <- df %>%
+    filter(ingredient %in% ingredients)
   
   # collapse the rows into 1 per cocktail (pivot_wider) with ingredients as a list-col
-  df <- df %>%
+  placeholder <- df %>%
     select(-measure, -ingredient_number) %>%
     mutate(hack = "ingredients") %>% # is there a better solution than this?
     pivot_wider(names_from = hack,
                 values_from = ingredient,
                 values_fn = list)
   
-  # filter df to only include cocktails that ingredient_to_filter
+  # filter df to only include cocktails included in ingredients (tmp)
   df <- df %>%
-    filter(ingredients %in% ingredient_to_filter)
+    filter(row_id %in% !!tmp$row_id)
   
   # return df
   df
   
 }
 
-test <- filter_ingredient("Vodka", cocktails)  
+test <- filter_ingredient("Gin", cocktails)  
 ```
 
 ```{r tidyData}
