@@ -1,0 +1,29 @@
+---
+title: "Cocktails"
+author: "Jackson M Luckey"
+date: "5/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r loadLibraries}
+library(tidyverse)
+```
+
+```{r loadData}
+cocktails <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-26/cocktails.csv')
+```
+
+```{r mostCommonIngredients}
+cocktails %>%
+  group_by(ingredient) %>%
+  count() %>%
+  arrange(desc(n))
+```
+
+```{r tidyData}
+# seperte the measure into two columns
+```
